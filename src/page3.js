@@ -1,0 +1,91 @@
+import React , {useState, useEffect} from 'react';
+import videoLinks from './media.json';
+import './App.css'
+
+function FileViewer({ query }) {
+
+    const [filteredLinks, setFilteredLinks] = useState([]);
+    const [selectedPdf, setSelectedPdf] = useState(null);
+    const [selectedStory, setSelectedStory] = useState(null);
+    const [content, setContent] = useState("pdf");
+
+    useEffect(()=>{
+        fetchFile('prasangaPrathi')
+    },[])
+
+    useEffect(()=>{
+        const filtered = videoLinks.filter(link =>
+            link.title.includes(query.toLowerCase())
+        );
+        setFilteredLinks(filtered);
+    },[])
+    
+    useEffect(()=>{
+        fetchFile('story')
+    },[])
+
+    function fetchFile (endpoint) {
+
+        // Fetch the PDF file
+        const server_url = `https://server-uh0b.onrender.com`
+        fetch(`${server_url}/yakshagana/search/${endpoint}?query=${query}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch PDF');
+                }
+                if (endpoint === 'prasangaPrathi') {
+                    return response.blob(); // Fetch PDF as blob
+                } else {
+                    return response.text(); 
+                }
+            })
+            .then(data => {
+                // Handle the fetched data accordingly
+                if (endpoint === 'prasangaPrathi') {
+                    const pdfUrl = URL.createObjectURL(data);
+                    setSelectedPdf(pdfUrl);
+                } else {
+                    setSelectedStory(data);
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching ',endpoint, error);
+            });
+    };
+
+    const openYoutubeVideo =() =>{
+        if (filteredLinks.length > 0) {
+            window.open(filteredLinks[0].link, '_blank');
+        } 
+    };
+
+    return (
+        <div className='file-viewer-container'>
+            <h2>Prasanga Prathi</h2>
+            <button onClick={() => setContent("pdf")}>Open PDF</button>
+
+           {selectedStory &&(
+            <>
+            <h2 style={{paddingTop:"20px"}}>Story & Ranga nade</h2>
+            <button onClick={() => setContent("story")}>Text File Viewer</button>
+            </>
+           )} 
+
+            {content === "pdf" && selectedPdf && (
+                <embed src={selectedPdf} type='application/pdf' style={{position: "absolute", 
+                    left:"340px", top:"30px", padding: "20px 25px", width:"650px", height:"500px"}} />
+            )}
+            {content === "story" && selectedStory && (
+                <textarea value={selectedStory} 
+                style={{position:"absolute", left:"380px", width:"600px", height:"500px", padding:"10px", 
+                    top:"30px", border_radius:"8px", box_sizing:"border-box", border_color:"lightgray"}}readOnly/>
+            )}
+          
+            <h2>Youtube video</h2>
+            <button onClick={openYoutubeVideo} >Media File Viewer</button>
+            
+        </div>
+    );
+}
+
+export default FileViewer;
