@@ -1,12 +1,23 @@
-import Search from "./homePage";
-//style={{ paddingLeft:"520px", paddingRight:"520px", paddingTop:"60px"}}
+import Homepage from "./homePage";
+import Search from "./page2";
+import FileViewer from "./page3";
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+
 function App() {
   return (
-    <div className="App">
-      <img src={process.env.PUBLIC_URL + '/images/logo.jpg'} alt="logo"className="logo" />
-      <h1 style={{paddingLeft:"550px",paddingRight:"550px"}}>YakshaKosha</h1>
-      <Search/>
-    </div>
+    <Router>
+      <div className="App">
+        <nav>
+          <Link to="/"></Link>
+          <Link to="/search"></Link>
+        </nav>
+        <Routes>
+          <Route path="/" element={<Homepage/>} />
+          <Route path="/search" element={<Search/>} />
+          <Route path="/file-viewer" element={<FileViewer/>} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

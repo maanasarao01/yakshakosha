@@ -1,8 +1,11 @@
 import React , {useState, useEffect} from 'react';
 import videoLinks from './media.json';
 import './App.css'
+import { useLocation } from 'react-router-dom';
 
-function FileViewer({ query }) {
+function FileViewer() {
+    const location = useLocation();
+    const query = location.state?.query;
 
     const [filteredLinks, setFilteredLinks] = useState([]);
     const [selectedPdf, setSelectedPdf] = useState(null);
@@ -66,7 +69,7 @@ function FileViewer({ query }) {
 
            {selectedStory &&(
             <>
-            <h2 style={{paddingTop:"20px"}}>Story & Ranga nade</h2>
+            <h2>Story & Ranga nade</h2>
             <button onClick={() => setContent("story")}>Text File Viewer</button>
             </>
            )} 
