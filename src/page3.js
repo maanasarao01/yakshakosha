@@ -4,28 +4,18 @@ import './App.css'
 import { useLocation } from 'react-router-dom';
 
 function FileViewer() {
+    
     const location = useLocation();
     const query = location.state?.query;
 
     const [filteredLinks, setFilteredLinks] = useState([]);
-    const [selectedPdf, setSelectedPdf] = useState(null);
-    const [selectedStory, setSelectedStory] = useState(null);
-    const [content, setContent] = useState("pdf");
+    const [selectedPdf, setSelectedPdf] = useState(() => {return fetchFile('prasangaPrathi')});
+    const [selectedStory, setSelectedStory] = useState(() => {return fetchFile('story')});
+    const [content, setContent] = useState("prasangaPrathi");
 
     useEffect(()=>{
-        fetchFile('prasangaPrathi')
-    },[])
-
-    useEffect(()=>{
-        const filtered = videoLinks.filter(link =>
-            link.title.includes(query.toLowerCase())
-        );
-        setFilteredLinks(filtered);
-    },[])
-    
-    useEffect(()=>{
-        fetchFile('story')
-    },[])
+        presetMediaLink();
+    })
 
     function fetchFile (endpoint) {
 
@@ -56,6 +46,13 @@ function FileViewer() {
             });
     };
 
+    const presetMediaLink = ()=>{
+        const filtered = videoLinks.filter(link =>
+            link.title.includes(query.toLowerCase())
+        );
+        setFilteredLinks(filtered);
+    }
+
     const openYoutubeVideo =() =>{
         if (filteredLinks.length > 0) {
             window.open(filteredLinks[0].link, '_blank');
@@ -64,17 +61,18 @@ function FileViewer() {
 
     return (
         <div className='file-viewer-container'>
+
             <h2>Prasanga Prathi</h2>
-            <button onClick={() => setContent("pdf")}>Open PDF</button>
+            <button onClick={() => setContent("prasangaPrathi")}>Open PDF</button>
 
            {selectedStory &&(
             <>
             <h2>Story & Ranga nade</h2>
-            <button onClick={() => setContent("story")}>Text File Viewer</button>
+            <button onClick={() => setContent('story')}>Text File Viewer</button>
             </>
            )} 
 
-            {content === "pdf" && selectedPdf && (
+            {content === "prasangaPrathi" && selectedPdf && (
                 <embed src={selectedPdf} type='application/pdf' style={{position: "absolute", 
                     left:"340px", top:"30px", padding: "20px 25px", width:"650px", height:"500px"}} />
             )}
