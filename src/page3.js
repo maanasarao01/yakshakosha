@@ -73,8 +73,8 @@ function FileViewer() {
            )} 
 
             {content === "prasangaPrathi" && selectedPdf && (
-                <embed src={selectedPdf} type='application/pdf' style={{position: "absolute", 
-                    left:"340px", top:"30px", padding: "20px 25px", width:"650px", height:"500px"}} />
+                <iframe src={selectedPdf} type='application/pdf' style={{position: "absolute", 
+                    left:"380px", top:"30px", padding: "10px", width:"645px", height:"500px"}} ></iframe>
             )}
             {content === "story" && selectedStory && (
                 <textarea value={selectedStory} 
