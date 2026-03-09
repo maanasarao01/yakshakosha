@@ -73,7 +73,7 @@ function FileViewer() {
            )} 
 
             {content === "prasangaPrathi" && selectedPdf && (
-                <iframe src={selectedPdf} type='application/pdf' style={{position: "absolute", 
+                <iframe title='pdf'src={selectedPdf} type='application/pdf' style={{position: "absolute", 
                     left:"380px", top:"30px", padding: "10px", width:"645px", height:"500px"}} ></iframe>
             )}
             {content === "story" && selectedStory && (
