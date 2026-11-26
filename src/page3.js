@@ -19,7 +19,7 @@ function FileViewer() {
     window.localStorage.setItem('yakshakosha.recent-prasanga', query);
     const controller = new AbortController();
     const objectUrls = [];
-    const apiBaseUrl = process.env.REACT_APP_API_URL || 'https://server-uh0b.onrender.com';
+    const apiBaseUrl = process.env.REACT_APP_API_URL || 'https://yakshakosha-server-quqo.onrender.com';
     const params = new URLSearchParams({ query });
 
     async function loadPdf() {
